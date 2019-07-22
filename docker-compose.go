@@ -1,6 +1,6 @@
 package main
 
-// DockerComposeService represents a service in componse-file
+// DockerComposeService represents a service in compose-file
 type DockerComposeService struct {
 	Image  string `json:"image"`
 	Deploy struct {

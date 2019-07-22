@@ -8,7 +8,7 @@ import (
 
 	"github.com/hashicorp/hcl"
 	"github.com/hashicorp/hcl/hcl/printer"
-	yaml "gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v2"
 )
 
 func main() {
@@ -29,7 +29,7 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		err = printJob(name, map[string]map[string]Job{"job": map[string]Job{name: job}})
+		err = printJob(name, map[string]map[string]Job{"job": {name: job}})
 		if err != nil {
 			panic(err)
 		}
