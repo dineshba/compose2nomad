@@ -25,9 +25,10 @@ type PortMap struct {
 
 // Service represents nomad task service
 type Service struct {
-	Name string   `json:"name,omitempty"`
-	Port string   `json:"port,omitempty"`
-	Tags []string `json:"tags,omitempty"`
+	Name        string   `json:"name,omitempty"`
+	Port        string   `json:"port,omitempty"`
+	Tags        []string `json:"tags,omitempty"`
+	AddressMode string   `json:"address_mode,omitempty"`
 }
 
 // Task represents nomad task
@@ -57,28 +58,24 @@ type Job struct {
 }
 
 func convertToNomadJob(name string, service DockerComposeService) (Job, error) {
-	portMaps, err := getPortMaps(service.Environment)
-	if err != nil {
-		return Job{}, err
-	}
-	if err != nil {
-		return Job{}, err
-	}
-	services := []Service{}
-	for _, portMap := range portMaps {
-		services = append(services, Service{Name: name, Port: strconv.Itoa(portMap.ServicePort)})
-	}
+	//portMaps, err := getPortMaps(service.Environment)
+	//if err != nil {
+	//	return Job{}, err
+	//}
+	//services := make([]Service, len(portMaps))
+	//for _, portMap := range portMaps {
+	//	services = append(services, Service{Name: name, Port: strconv.Itoa(portMap.ServicePort)})
+	//}
 
 	envs := environmentsAsMap(service.Environment)
 	task := Task{
 		Driver: "docker",
 		Config: []Config{
 			{
-				Image:   service.Image,
-				PortMap: portMaps,
+				Image: service.Image,
 			},
 		},
-		Service: services,
+		Service: []Service{{Name: name, AddressMode: "driver"}},
 		Env:     envs,
 	}
 	group := Group{Count: 1, Task: map[string]Task{name: task}}
