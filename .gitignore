@@ -1,0 +1,5 @@
+*.nomad
+*.iml
+.idea/
+.talismanrc
+compose2nomad
